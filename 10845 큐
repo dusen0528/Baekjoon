@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <string.h>
+
+int queue[10000];
+int queue_size=0;
+
+void push(int push_data){
+    queue[queue_size] = push_data;
+    queue_size+=1;
+}
+
+int empty(){
+    if(queue_size==0) return 1;
+    else return 0;
+}
+
+int pop(){
+    if(empty()) return -1;
+    queue_size -= 1;
+    return queue[0];
+}
+
+int front(){
+    if(empty()) return -1;
+    return queue[queue_size-queue_size];
+}
+
+int back(){
+    if(empty()) return -1;
+    return queue[queue_size-1];
+}
+
+void setting(){
+    for(int i=0;i<queue_size;i++){
+        queue[i] = queue[i+1];
+    }
+}
+
+int main(){
+    int N = 0, push_data = 0;
+    char command[5] = {0, };
+    scanf("%d", &N);
+
+    for(int i=0; i < N; i++){
+        scanf("%s", command);
+        if(!strcmp(command, "push")){
+            scanf("%d", &push_data);
+            push(push_data);
+        }
+        else if(!strcmp(command, "pop")){
+            printf("%d\n", pop());
+            setting();
+        }
+        else if(!strcmp(command, "empty")){
+            printf("%d\n", empty());
+        }
+        else if(!strcmp(command, "size")){
+            printf("%d\n", queue_size);
+        }
+        else if(!strcmp(command,"front")){
+            printf("%d\n", front());
+        }
+        else if(!strcmp(command, "back")){
+            printf("%d\n", back());
+        }
+    }
+    return 0;
+}
