@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX_STACK_SIZE 100000
+
+typedef int element;
+typedef struct {
+    element stack[MAX_STACK_SIZE];
+    int top;
+    int size;
+}Stack;
+
+void init_stack(Stack* s) {
+    s->top = -1;
+    s->size = 0;
+}
+
+void push(Stack* s, element item) {
+    s->size++;
+    s->stack[++(s->top)] = item;
+}
+
+element pop(Stack* s) {
+    s->size--;
+    return s->stack[(s->top)--];
+}
+
+int is_empty(Stack* s) {
+    return (s->top == -1);
+}
+
+element peek(Stack* s) {
+    return s->stack[s->top];
+}
+
+int main(void) {
+    int K, n;
+    char vps[50];
+    Stack a;
+    init_stack(&a);
+    scanf("%d", &K);
+
+    for (int i = 0; i < K; i++) {
+        bool flag = true;
+        scanf("%s", vps);
+        int len = strlen(vps);
+        init_stack(&a);
+        for (int z = 0; z < len; z++) { //문자열 길이만큼 각 인덱스 반복 
+            if (vps[0] == ')') { //첫번째 문자열이 )일 경우는 vps가 아니므로 바로 반복문 탈출
+                flag = false;
+                break;
+            }
+       
+            if (vps[z] == '(') { // '('일 경우 스택에 넣음
+                push(&a, vps[z]);
+            }
+            else if (vps[z]==')'&&peek(&a) == '(') { //')'이면서 현재 스택 가장 위에 '('가 있을때만 pop
+                pop(&a);
+            }
+            else { // 그 외의 경우는 모두 vps가 아니다
+                flag = false;
+            }
+        }
+        if (a.top != -1) {
+            flag = false;
+        }
+        if (flag == true) {
+            printf("YES\n");
+        }
+        else printf("NO\n");
+
+    }
+    return 0;
+}
