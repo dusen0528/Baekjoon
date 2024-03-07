@@ -1,1 +1,2 @@
-print('he')
+word = input('')
+print(len(word))
